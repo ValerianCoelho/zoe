@@ -41,7 +41,7 @@ Work in a scratch directory: the session scratchpad if one exists, otherwise `$T
    - Tokens: grep tailwind config, CSS variables and globals.css for brand and neutral colours, radii and fonts.
    - Dark mode: `html.dark` class, `data-theme`, or media query. The player handles all three.
    - Section context: background colour, container width, and whether it sits beside text (then aim for about 560–760px wide) or full-bleed.
-   - Existing motion components to match: if a `LottieMotion.tsx` already exists, reuse it.
+   - Existing motion components: the scaffolder reuses a shared `LottieMotion.tsx` (or `lottie-motion.js`) found in the destination or any parent folder, so every animation uses the same player. Match the existing folder conventions.
    - The brief may say where to put the component. Otherwise use `components/motion/<Name>/`, or the project's convention.
 3. Choose canvas and timing defaults. Use a 4:3, 16:10 or 3:2 ratio matched to the slot, designed at 1× around 640–800px wide, 60fps, and a seamless loop of 4–8s. Use an intro plus loop (markers) only when a build-up genuinely helps the story.
 
@@ -110,10 +110,11 @@ Stop iterating only when you would put your studio's name on it.
 ```bash
 node ${CLAUDE_SKILL_DIR}/scripts/scaffold.mjs --name <PascalName> --dest <components dir> --from $WORK/out \
   --label "<what it shows, for screen readers>" --source $WORK/build.mjs --poster <best still frame> \
-  --framework react|web --bg-light '<bg>' --bg-dark '<bg>'
+  --framework react|web
 ```
 
 - Choose `--poster` as a frame where the story reads at a glance. It is what reduced-motion users see.
+- The component folder holds `index.tsx`, `light.json`, `dark.json` and `source/build.mjs`. The player is shared: the scaffolder reports whether it reused one or created it.
 - If the scaffolder reports `needsDependency`, install `lottie-web` with the project's package manager (lockfile tells you which).
 - Typecheck and lint the project. Do not add the component to pages unless the brief asks; if it does, place it where specified.
 - If you can run the app, check it in a real browser: it plays, theme-switches, pauses off-screen, and shows no console errors.
@@ -127,4 +128,4 @@ Keep it short and factual:
 - The beat sheet in 3–5 lines.
 - Verification: analyser counts, validator result, renderer spikes and seam verdict, and the number of critique rounds with the main changes made.
 - Assumptions you made (palette source, size, theme strategy) and anything the caller should decide.
-- Paths to `preview.html` and the review PNGs.
+- Paths to the review PNGs.

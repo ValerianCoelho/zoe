@@ -38,7 +38,7 @@ concept ─▶ ideation (≥4 metaphors, scored) ─▶ design spec (grid, palet
 | `scripts/lottie-kit.mjs` | Scene graph → Lottie. Hermite-fitted baking, arc-length paths, springs, seamless `cycle`, analysis |
 | `scripts/render.mjs` | lottie-web in headless Chrome: contact sheet, onion skin, frame strips and crops, pixel-diff pop/seam detection, optional mp4 |
 | `scripts/validate.mjs` | Structural and portability lint for any Lottie JSON |
-| `scripts/scaffold.mjs` | Packages JSON into `<Name>/` with a typed wrapper, player, preview.html, README and source |
-| `templates/react/LottieMotion.tsx` | Player: lazy, in-view playback, theme swap, reduced motion, intro→loop markers, no layout shift |
+| `scripts/scaffold.mjs` | Packages JSON into `<Name>/` (typed wrapper, theme JSON, build source) and reuses or creates the shared player |
+| `templates/react/LottieMotion.tsx` | Shared player, copied once per project: lazy, in-view playback, theme swap, reduced motion, intro→loop markers, no layout shift |
 | `templates/web/lottie-motion.js` | The same as a framework-agnostic custom element |
 | `examples/packet-routing/build.mjs` | Reference scene that sets the quality bar |
