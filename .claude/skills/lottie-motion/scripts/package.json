@@ -1,0 +1,11 @@
+{
+  "name": "lottie-motion-toolkit",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Build, analyse and render Lottie animations from code.",
+  "dependencies": {
+    "lottie-web": "5.12.2",
+    "puppeteer": "^25.16.0"
+  }
+}

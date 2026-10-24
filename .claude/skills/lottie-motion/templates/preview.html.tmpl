@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{NAME}} · preview</title>
+<style>
+  :root { --bg: #f4f3f1; --panel: #fff; --ink: #1c1917; --muted: #78716c; --line: #e7e5e4; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 13px/1.5 ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+  header { padding: 20px 24px 8px; display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+  h1 { font-size: 15px; margin: 0; font-weight: 600; }
+  header p { margin: 0; color: var(--muted); }
+  .stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; padding: 16px 24px; }
+  .card { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .card .label { font: 11px ui-monospace, Menlo, monospace; padding: 8px 12px; color: var(--muted); border-bottom: 1px solid var(--line); background: var(--panel); }
+  .card.dark .label { background: #141413; color: #a8a29e; border-color: #262524; }
+  .canvas { aspect-ratio: {{W}} / {{H}}; }
+  .controls { position: sticky; bottom: 0; display: flex; gap: 12px; align-items: center; padding: 12px 24px; background: var(--panel); border-top: 1px solid var(--line); flex-wrap: wrap; }
+  button { font: inherit; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  input[type=range] { flex: 1; min-width: 160px; }
+  .mono { font-family: ui-monospace, Menlo, monospace; color: var(--muted); min-width: 120px; }
+  select { font: inherit; padding: 5px; border-radius: 8px; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<header><h1>{{NAME}}</h1><p>{{DESCRIPTION}}</p></header>
+<div class="stage" id="stage"></div>
+<div class="controls">
+  <button id="toggle">Pause</button>
+  <input id="scrub" type="range" min="0" max="{{FRAMES}}" step="1" value="0" />
+  <span class="mono" id="time">f0</span>
+  <select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+  <select id="size"><option value="1">100%</option><option value="0.5">50% (small-screen check)</option><option value="0.33">33% (thumbnail check)</option></select>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie_light.min.js"></script>
+<script>
+const VARIANTS = {{VARIANTS_JSON}};
+const stage = document.getElementById('stage'), anims = [];
+for (const v of VARIANTS) {
+  const card = document.createElement('div'); card.className = 'card ' + v.name;
+  card.innerHTML = `<div class="label">${v.name} · bg ${v.bg}</div><div class="canvas" style="background:${v.bg}"></div>`;
+  stage.appendChild(card);
+  anims.push(lottie.loadAnimation({ container: card.querySelector('.canvas'), renderer: 'svg', loop: true, autoplay: true, animationData: v.data }));
+}
+let playing = true;
+const scrub = document.getElementById('scrub'), time = document.getElementById('time');
+document.getElementById('toggle').onclick = (e) => { playing = !playing; anims.forEach((a) => (playing ? a.play() : a.pause())); e.target.textContent = playing ? 'Pause' : 'Play'; };
+scrub.oninput = () => { playing = false; document.getElementById('toggle').textContent = 'Play'; anims.forEach((a) => a.goToAndStop(+scrub.value, true)); };
+document.getElementById('speed').onchange = (e) => anims.forEach((a) => a.setSpeed(+e.target.value));
+document.getElementById('size').onchange = (e) => document.querySelectorAll('.card').forEach((c) => (c.style.maxWidth = e.target.value === '1' ? '' : {{W}} * +e.target.value + 'px'));
+(function tick() { const f = anims[0].currentFrame; if (playing) scrub.value = f; time.textContent = `f${Math.round(f)} · ${(f / {{FPS}}).toFixed(2)}s`; requestAnimationFrame(tick); })();
+</script>
+</body>
+</html>

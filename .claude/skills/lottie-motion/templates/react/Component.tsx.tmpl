@@ -1,0 +1,26 @@
+'use client';
+
+import LottieMotion, { type LottieMotionProps } from './LottieMotion';
+
+// Loaders live at module scope: stable identities (no reloads on re-render) and separate chunks,
+// so only the active theme's JSON is ever downloaded.
+const light = () => import('./light.json');
+{{DARK_LOADER}}
+
+export type {{NAME}}Props = Omit<LottieMotionProps, 'light' | 'dark' | 'width' | 'height'>;
+
+/**
+ * {{DESCRIPTION}}
+ * Composition {{W}}×{{H}} · {{SECONDS}}s{{LOOP_NOTE}}. Size it with the parent (it fills the width, keeps its aspect ratio).
+ */
+export default function {{NAME}}(props: {{NAME}}Props) {
+  return (
+    <LottieMotion
+      light={light}{{DARK_PROP}}
+      width={{{W}}}
+      height={{{H}}}{{LABEL_PROP}}
+      posterFrame={{{POSTER}}}
+      {...props}
+    />
+  );
+}
