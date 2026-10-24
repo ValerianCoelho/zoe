@@ -98,7 +98,7 @@ Travel: `layer.moveAlong(path, t0, t1, { ease, from:0, to:1, orient, angleOffset
 ## Timing helpers
 
 ```js
-ease.{linear,out,outSoft,outQuad,inOut,inOutStrong,smooth,in,inStrong,standard,anticipate,overshoot,hold}
+ease.{linear,out,outSoft,outQuad,inOut,inOutStrong,smooth,cubic,in,inStrong,standard,anticipate,overshoot,hold}
 ease.bezier(x1,y1,x2,y2); easeFn(e)(p) → 0..1
 spring(cfg) → { at(seconds), duration, zeta }
 stagger(n, { each:4, from:'start'|'end'|'center'|'edges'|index, ease }) → frame offsets
@@ -139,4 +139,5 @@ The **timeline** (█ moving, · visible and static) is your choreography X-ray.
 - Layer z-order cannot change over time. To swap depth, duplicate the element on two layers and switch which one is visible while it is occluded.
 - Ellipse and rect sizes animate cheaply. Path morphs need matching vertex counts.
 - Stroke dashes with a gradient stroke work (the dot-grid technique). Dash offset animates marching ants: loop by a whole multiple of (dash + gap).
+- `bake`/`cycle` fit motion with cubic Hermite segments. Easing that is itself a cubic Hermite (`ease.cubic`, i.e. smoothstep, or `ease.linear`) costs one segment, while curves like `inOut` or `out` need several. Use `ease.cubic` for many small repeated tweens (sweeps, blinks); it looks almost identical to `inOut` and is a fraction of the size.
 - Keep files under 120KB: raise bake `tol` for slow or small things (0.15–0.25), avoid per-frame keys on many layers, and reuse one layer per repeating effect via `cycle` with multiple starts.

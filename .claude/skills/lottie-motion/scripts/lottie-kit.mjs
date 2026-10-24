@@ -153,6 +153,7 @@ export const HOLD = Object.freeze({ hold: true, toString: () => 'hold' });
  *  in         — departures/exits: accelerate away (pair with out on the next element)
  *  anticipate — tiny pull-back before a move (use rarely, on the hero only)
  *  overshoot  — springy arrival (use rarely; prefer prop.spring for real physics)
+ *  cubic      — smoothstep; a gentle in-out that bakes to a single keyframe segment (use for many small repeated tweens)
  *  linear     — ONLY for constant continuous motion (rotation, marching dashes, conveyor loops)
  */
 export const ease = {
@@ -163,6 +164,8 @@ export const ease = {
   inOut: bz(0.65, 0, 0.35, 1, 'inOut'),
   inOutStrong: bz(0.83, 0, 0.17, 1, 'inOutStrong'),
   smooth: bz(0.45, 0, 0.55, 1, 'smooth'),
+  // smoothstep (3p²−2p³): an exact cubic Hermite, so anything baked with it costs one segment
+  cubic: bz(1 / 3, 0, 2 / 3, 1, 'cubic'),
   in: bz(0.32, 0, 0.67, 0, 'in'),
   inStrong: bz(0.64, 0, 0.78, 0, 'inStrong'),
   standard: bz(0.2, 0, 0, 1, 'standard'),
@@ -991,8 +994,7 @@ function exportTransform(t, { layer = false, precision }) {
   tr.s = t.scale.toLottie({ dims, precision });
   tr.r = t.rotation.toLottie({ precision });
   tr.o = t.opacity.toLottie({ precision });
-  if (!layer) { tr.sk = { a: 0, k: 0 }; tr.sa = { a: 0, k: 0 }; }
-  return tr;
+  return tr; // skew (sk/sa) is never used, so it is omitted (players default it to 0)
 }
 
 // The kit uses painter's order (added later = drawn on top). Lottie draws earlier array entries on top,
@@ -1006,18 +1008,18 @@ function exportItem(it, precision) {
   const P = (p, o) => p.toLottie({ precision, ...o });
   if (it instanceof Group) {
     const its = paintOrder(it.items).map((x) => exportItem(x, precision));
-    its.push({ ty: 'tr', nm: 'Transform', ...exportTransform(it, { precision }) });
+    its.push({ ty: 'tr', ...exportTransform(it, { precision }) });
     return { ty: 'gr', nm: it.name, it: its, np: its.length - 1, cix: 2, bm: 0 };
   }
   switch (it.ty) {
-    case 'rc': return { ty: 'rc', d: 1, s: P(it.size), p: P(it.at), r: P(it.radius), nm: 'Rect' };
-    case 'el': return { ty: 'el', d: 1, s: P(it.size), p: P(it.at), nm: 'Ellipse' };
-    case 'sh': return { ty: 'sh', d: 1, ks: P(it.shape), nm: 'Path' };
-    case 'tm': return { ty: 'tm', s: P(it.start), e: P(it.end), o: P(it.offset), m: it.m, nm: 'Trim' };
-    case 'rd': return { ty: 'rd', r: P(it.radius), nm: 'Round Corners' };
-    case 'fl': return { ty: 'fl', c: P(it.color), o: P(it.opacity), r: it.rule === 'evenodd' ? 2 : 1, bm: 0, nm: 'Fill' };
+    case 'rc': return { ty: 'rc', d: 1, s: P(it.size), p: P(it.at), r: P(it.radius) };
+    case 'el': return { ty: 'el', d: 1, s: P(it.size), p: P(it.at) };
+    case 'sh': return { ty: 'sh', d: 1, ks: P(it.shape) };
+    case 'tm': return { ty: 'tm', s: P(it.start), e: P(it.end), o: P(it.offset), m: it.m };
+    case 'rd': return { ty: 'rd', r: P(it.radius) };
+    case 'fl': return { ty: 'fl', c: P(it.color), o: P(it.opacity), r: it.rule === 'evenodd' ? 2 : 1, bm: 0 };
     case 'st': {
-      const o = { ty: 'st', c: P(it.color), o: P(it.opacity), w: P(it.width), lc: CAP[it.cap || 'round'], lj: JOIN[it.join || 'round'], ml: 4, bm: 0, nm: 'Stroke' };
+      const o = { ty: 'st', c: P(it.color), o: P(it.opacity), w: P(it.width), lc: CAP[it.cap || 'round'], lj: JOIN[it.join || 'round'], ml: 4, bm: 0 };
       if (it.dash) o.d = dashJSON(it.dash, P);
       return o;
     }
@@ -1025,7 +1027,7 @@ function exportItem(it, precision) {
       const k = [];
       it.stops.forEach(([o, c]) => k.push(o, ...c.slice(0, 3).map((v) => +v.toFixed(4))));
       it.stops.forEach(([o, , a]) => k.push(o, +a.toFixed(4)));
-      const o = { ty: it.ty, o: P(it.opacity), r: 1, bm: 0, g: { p: it.stops.length, k: { a: 0, k } }, s: P(it.from), e: P(it.to), t: it.type === 'radial' ? 2 : 1, nm: 'Gradient' };
+      const o = { ty: it.ty, o: P(it.opacity), r: 1, bm: 0, g: { p: it.stops.length, k: { a: 0, k } }, s: P(it.from), e: P(it.to), t: it.type === 'radial' ? 2 : 1 };
       if (it.type === 'radial') Object.assign(o, { h: { a: 0, k: 0 }, a: { a: 0, k: 0 } });
       if (it.ty === 'gs') Object.assign(o, { w: P(it.width), lc: CAP[it.cap], lj: JOIN[it.join], ml: 4 });
       if (it.ty === 'gs' && it.dash) o.d = dashJSON(it.dash, P);
@@ -1253,7 +1255,7 @@ function analyzeScene(scene, { step = 0.5, timelineWidth = 72, maxRows = 40 } = 
       if (prev !== null && Math.abs(pres - prev) > 0.45 && !occluded(l, f) && !occluded(l, f - 1)) add('warn', 'pop', `${l.name} @f${f}: presence jumps ${prev.toFixed(2)} → ${pres.toFixed(2)} in one frame (fade/scale it in instead)`, { frame: f });
       prev = pres;
     }
-    if (scene.loop && Math.abs(presence(l, S1 - 1) - presence(l, S0)) > 0.45) add('warn', 'pop', `${l.name}: presence differs across the loop point (f${S1 - 1} → f${S0})`);
+    if (scene.loop && Math.abs(presence(l, S1 - 1) - presence(l, S0)) > 0.45 && !occluded(l, S1 - 1) && !occluded(l, S0)) add('warn', 'pop', `${l.name}: presence differs across the loop point (f${S1 - 1} → f${S0})`);
   }
 
   // 4. collisions / clearance
