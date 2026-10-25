@@ -1,3 +1,4 @@
+import SingleSource from '@/components/motion/examples/SingleSource';
 import PacketRouting from '@/components/motion/examples/PacketRouting';
 
 // Showcase for components produced by the lottie-motion skill.
@@ -22,6 +23,17 @@ export default function Home() {
           </p>
         </div>
         <PacketRouting />
+      </section>
+
+      <section className="mt-10 grid items-center gap-12 rounded-3xl border border-zinc-200 bg-[#fafaf9] p-8 md:grid-cols-[1.4fr_1fr] md:p-12 dark:border-zinc-800 dark:bg-[#0c0c0b]">
+        <SingleSource className="md:order-first" />
+        <div className="order-first md:order-none">
+          <p className="font-mono text-xs uppercase tracking-widest text-[#0f9b77] dark:text-[#2ec4a0]">Single source</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">One source of truth, many uses.</h2>
+          <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+            Data from many sources is collected into one versioned record, then delivered to every tool that needs it.
+          </p>
+        </div>
       </section>
     </main>
   );
