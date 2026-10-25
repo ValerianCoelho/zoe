@@ -999,7 +999,7 @@ export class Scene {
       v: '5.12.2', fr: this.fps, ip: 0, op: this.frames, w: this.width, h: this.height, nm: this.name, ddd: 0,
       assets: [], layers,
       markers: this.markers.map((m) => ({ tm: m.start, cm: m.name, dr: m.end - m.start })),
-      meta: { g: 'lottie-motion kit', ...this.meta },
+      meta: { g: 'zoe', ...this.meta },
     };
     return json;
   }

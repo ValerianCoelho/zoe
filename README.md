@@ -1,10 +1,16 @@
-# lottie-motion
+# Zoe
 
-A [Claude Code](https://claude.com/claude-code) skill that designs and builds polished Lottie animations for websites: the small animated illustrations that explain a product idea in a few seconds, like data flowing into a hub or friends joining a trip. It ships each one as a drop-in React component.
+Zoe is a [Claude Code](https://claude.com/claude-code) skill that designs and builds polished Lottie animations for websites: the small animated illustrations that explain a product idea in a few seconds, like data flowing into a hub or friends joining a trip. It ships each one as a drop-in React component.
 
 You describe a concept. Claude explores several visual ideas, picks the strongest one, computes every motion in code, checks the result for collisions, jerky motion and loop seams, then renders frames and critiques them before handing you a component.
 
 This repo contains the skill itself and a Next.js showcase with three animations built with it.
+
+## Why "Zoe"?
+
+*Zoe* is Greek for "life". It's also the root of the *zoetrope*, a spinning drum with slits around its edge. Look through the slits as it turns and a strip of drawings inside comes to life as motion. It was one of the first animation devices, back in the 1830s.
+
+That's what this skill does: it takes an idea that would otherwise be a paragraph of copy and brings it to life in a few seconds of motion. Zoe is also a name, which suits the skill: you hand it a brief the way you'd brief a motion designer on your team.
 
 ## Examples
 
@@ -39,21 +45,21 @@ The skill doesn't hand-write Lottie JSON. Claude writes a short build script usi
 
    ```bash
    # for one project
-   cp -R .claude/skills/lottie-motion   <your-project>/.claude/skills/
-   cp    .claude/agents/lottie-motion-designer.md <your-project>/.claude/agents/
+   cp -R .claude/skills/zoe   <your-project>/.claude/skills/
+   cp    .claude/agents/zoe-designer.md <your-project>/.claude/agents/
 
    # or for all your projects
-   cp -R .claude/skills/lottie-motion   ~/.claude/skills/
-   cp    .claude/agents/lottie-motion-designer.md ~/.claude/agents/
+   cp -R .claude/skills/zoe   ~/.claude/skills/
+   cp    .claude/agents/zoe-designer.md ~/.claude/agents/
    ```
 
 2. Start a new Claude Code session and ask for an animation:
 
    ```
-   /lottie-motion data packets routed from many regions into one core, for the hero's right column
+   /zoe data packets routed from many regions into one core, for the hero's right column
    ```
 
-   Or, from an orchestrating agent, delegate to the `lottie-motion-designer` subagent (it runs on Opus with the skill preloaded) with a brief: the concept, where it will be used, brand constraints and the output folder.
+   Or, from an orchestrating agent, delegate to the `zoe-designer` subagent (it runs on Opus with the skill preloaded) with a brief: the concept, where it will be used, brand constraints and the output folder.
 
 3. Install `lottie-web` in your project if the skill reports it's missing, then import the component:
 
@@ -68,13 +74,13 @@ The skill doesn't hand-write Lottie JSON. Claude writes a short build script usi
 ## Repository layout
 
 ```
-.claude/skills/lottie-motion/   the skill
+.claude/skills/zoe/             the skill
   SKILL.md                      the playbook Claude follows
   references/                   art direction, motion principles, concept patterns, toolkit API, QA checklist
   scripts/                      toolkit: builder and analyser, renderer, validator, component scaffolder
   templates/                    React player, web component, component wrapper
   examples/                     reference build script
-.claude/agents/                 lottie-motion-designer subagent
+.claude/agents/                 zoe-designer subagent
 components/motion/              shared player and the example components
 app/page.tsx                    showcase page
 docs/                           component documentation

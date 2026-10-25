@@ -12,7 +12,7 @@
 //  5. analysis rules declared (no overlaps, clearances, occluders, safe area) and the report printed
 
 import path from 'node:path';
-import { Scene, Path, V, ease, easeFn, clamp, mix } from '../../../../../.claude/skills/lottie-motion/scripts/lottie-kit.mjs';
+import { Scene, Path, V, ease, easeFn, clamp, mix } from '../../../../../.claude/skills/zoe/scripts/lottie-kit.mjs';
 
 const OUT = process.argv[2] || path.join(import.meta.dirname, 'out');
 

@@ -7,7 +7,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { Scene, Path, ease, easeFn, clamp, mix, smoothstep, parseSvg } from '../../../../../.claude/skills/lottie-motion/scripts/lottie-kit.mjs';
+import { Scene, Path, ease, easeFn, clamp, mix, smoothstep, parseSvg } from '../../../../../.claude/skills/zoe/scripts/lottie-kit.mjs';
 
 const OUT = process.argv[2] || path.join(import.meta.dirname, 'out');
 // the five animals used, bundled here so this script rebuilds on its own

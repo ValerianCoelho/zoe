@@ -6,7 +6,7 @@
 //   node build.mjs <outDir>
 
 import path from 'node:path';
-import { Scene, Path, ease, easeFn, clamp, mix } from '../../../../../.claude/skills/lottie-motion/scripts/lottie-kit.mjs';
+import { Scene, Path, ease, easeFn, clamp, mix } from '../../../../../.claude/skills/zoe/scripts/lottie-kit.mjs';
 
 const OUT = process.argv[2] || path.join(import.meta.dirname, 'out');
 

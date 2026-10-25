@@ -1,6 +1,10 @@
-# lottie-motion skill
+# Zoe
 
-This skill builds agency-grade concept animations as Lottie and ships them as drop-in website components. The agent works through six phases:
+Zoe builds agency-grade concept animations as Lottie and ships them as drop-in website components.
+
+**Why Zoe?** *Zoe* is Greek for "life". It's also the root of the *zoetrope*, the spinning drum with slits that made the first moving pictures in the 1830s. Zoe brings a product's ideas to life, one frame at a time.
+
+The agent works through six phases:
 
 ```
 concept ─▶ ideation (≥4 metaphors, scored) ─▶ design spec (grid, palette, inventory, layout math)
@@ -10,16 +14,16 @@ concept ─▶ ideation (≥4 metaphors, scored) ─▶ design spec (grid, palet
 
 ## Install
 
-- **In this repo**: it's already at `.claude/skills/lottie-motion`, with the subagent at `.claude/agents/lottie-motion-designer.md`.
-- **Everywhere**: copy `lottie-motion/` to `~/.claude/skills/` and `lottie-motion-designer.md` to `~/.claude/agents/`.
+- **In this repo**: it's already at `.claude/skills/zoe`, with the subagent at `.claude/agents/zoe-designer.md`.
+- **Everywhere**: copy `zoe/` to `~/.claude/skills/` and `zoe-designer.md` to `~/.claude/agents/`.
 - Toolkit dependencies (headless Chrome for rendering), installed automatically on first use:
-  `npm install --prefix ~/.claude/skills/lottie-motion/scripts`
+  `npm install --prefix ~/.claude/skills/zoe/scripts`
 - Health check: `node scripts/selftest.mjs`
 
 ## Use
 
-- **Directly**: `/lottie-motion data packets routed from many regions into one core, for the hero's right column`
-- **From an orchestrator**: delegate to the `lottie-motion-designer` subagent (Opus, max effort, skill preloaded) with a brief:
+- **Directly**: `/zoe data packets routed from many regions into one core, for the hero's right column`
+- **From an orchestrator**: delegate to the `zoe-designer` subagent (Opus, max effort, skill preloaded) with a brief:
 
   > Concept: "Every deploy is checked before it reaches users." Placement: features section, right of a 3-line paragraph, about 640px wide, bg #fafaf9 / dark #0c0c0b. Constraints: brand accent #4f46e5, loop. Output: components/motion/DeployGate.
 
