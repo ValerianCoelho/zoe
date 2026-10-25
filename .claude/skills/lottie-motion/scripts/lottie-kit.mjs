@@ -61,9 +61,13 @@ export function rng(seed = 1) {
 // Color (sRGB in, OKLab for mixing)
 // ─────────────────────────────────────────────────────────────────────────────
 
+// basic CSS named colours (common in exported SVG artwork)
+const NAMED = { white: 'ffffff', black: '000000', red: 'ff0000', green: '008000', blue: '0000ff', yellow: 'ffff00', gray: '808080', grey: '808080', orange: 'ffa500', purple: '800080', pink: 'ffc0cb', brown: 'a52a2a', transparent: '00000000' };
+
 export function hex(input) {
   if (Array.isArray(input)) return input.length >= 4 ? input.slice(0, 4) : [...input, 1];
-  let h = String(input).trim().replace('#', '');
+  let h = String(input).trim().toLowerCase();
+  h = NAMED[h] ?? h.replace('#', '');
   if (h.length === 3 || h.length === 4) h = h.split('').map((c) => c + c).join('');
   const n = (i) => parseInt(h.slice(i, i + 2), 16) / 255;
   if (!/^[0-9a-f]{6}([0-9a-f]{2})?$/i.test(h)) throw new Error(`Bad color: ${input}`);
@@ -466,6 +470,26 @@ export const Path = {
   },
 };
 
+/**
+ * Parse simple SVG artwork (icons, illustrations): <path d fill> elements, optionally inside an
+ * <svg viewBox>. Returns { viewBox:[x,y,w,h], shapes:[{ paths: BezierPath[], fill, opacity }] }.
+ * Supports what Path.svg supports (M L H V C S Q T Z, no arcs). Elements with fill="none",
+ * strokes, gradients, masks and transforms are not handled — check the artwork first.
+ */
+export function parseSvg(text) {
+  const vb = text.match(/viewBox="([^"]+)"/);
+  const viewBox = vb ? vb[1].trim().split(/[\s,]+/).map(Number) : [0, 0, +(text.match(/width="([\d.]+)/)?.[1] ?? 24), +(text.match(/height="([\d.]+)/)?.[1] ?? 24)];
+  const shapes = [];
+  for (const m of text.matchAll(/<path\b([^>]*)\/?>/g)) {
+    const attr = (n) => m[1].match(new RegExp(`\\s${n}="([^"]*)"`))?.[1];
+    const d = attr('d'), fill = attr('fill') ?? '#000000';
+    if (!d || fill === 'none') continue;
+    const parsed = Path.svg(d);
+    shapes.push({ paths: Array.isArray(parsed) ? parsed : [parsed], fill, opacity: attr('fill-opacity') ? +attr('fill-opacity') * 100 : 100 });
+  }
+  return { viewBox, shapes };
+}
+
 /** Linear blend of two paths with identical vertex counts (for morph baking). */
 export function lerpPath(a, b, t) {
   if (a.vertices.length !== b.vertices.length) throw new Error('lerpPath: vertex counts differ');
@@ -801,6 +825,20 @@ const ShapeHelpers = {
   ellipse(opts) { const { w, h, at = [0, 0], name } = opts; return this._styled(name, opts, (g) => g.addEllipse({ size: [w, h], at })); },
   /** path: BezierPath (use Path.*). */
   path(p, opts = {}) { return this._styled(opts.name, opts, (g) => g.addPath(p)); },
+  /**
+   * Draw parsed SVG artwork (parseSvg) as one group, scaled so its viewBox width is `size` px and
+   * its viewBox centre sits at `at`. Returns the group (animate its transform like any other).
+   */
+  svg(art, { name, at = [0, 0], size = null } = {}) {
+    const [vx, vy, vw, vh] = art.viewBox, k = ((size ?? vw) / vw) * 100;
+    const g = this.group(name || `svg${this.scene._uid()}`, { position: at, anchor: [vx + vw / 2, vy + vh / 2], scale: [k, k] });
+    art.shapes.forEach((sh, i) => {
+      const part = g.group(`part${i}`);
+      sh.paths.forEach((p) => part.addPath(p));
+      part.addFill({ color: sh.fill, opacity: sh.opacity });
+    });
+    return g;
+  },
 };
 Object.assign(Group.prototype, ShapeHelpers);
 

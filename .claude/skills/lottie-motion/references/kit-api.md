@@ -51,6 +51,8 @@ The handle (Group) exposes animatable props:
 - `g.fillItem.color / .opacity` and `g.strokeItem.color / .width / .opacity / .dash.offset`.
 - `g.trim.start / .end / .offset`.
 
+SVG artwork (icons, illustrations, avatars): `const art = parseSvg(fs.readFileSync(file, 'utf8'))`, then `L.svg(art, { at, size, name })` draws it as one group, scaled so the viewBox width is `size` px and centred on `at`. Only `<path d fill>` is supported (no arcs, strokes, gradients, masks or transforms), so check the artwork's elements first.
+
 Low-level building: `const g = L.group('name')`, then `g.addRect / addEllipse / addPath / addTrim / addRoundCorners / addStroke / addFill / addGradient`. When several paths share one stroke, add all the paths first, then the stroke (this is how the dot grid is drawn).
 
 Gradient: `addGradient({ type:'linear'|'radial', from:[x,y], to:[x,y], stops:[[0,'#hex',alpha],[1,'#hex',alpha]], stroke?:{ width, cap, dash } })`.
