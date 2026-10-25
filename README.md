@@ -33,13 +33,58 @@ That's what this skill does: it takes an idea that would otherwise be a paragrap
 
 ## Examples
 
-| Component | What it shows |
-|---|---|
-| **PacketRouting** | Packets travel routed lines from five nodes into one hub, which reacts to each arrival. |
-| **SingleSource** | Data from five sources fills the rows of one central hub, which then feeds three different tools. |
-| **TripInvite** | An invite link is shared and four friends fly into a trip's avatar stack. |
+<table>
+  <tr>
+    <td width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/assets/packet-routing-dark.gif">
+        <img src="docs/assets/packet-routing-light.gif" alt="Packets travel routed lines from five nodes into one hub">
+      </picture>
+    </td>
+    <td>
+      <strong>PacketRouting</strong><br>
+      Packets travel routed lines from five nodes into one hub, which reacts to each arrival.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/assets/single-source-dark.gif">
+        <img src="docs/assets/single-source-light.gif" alt="Data from five sources fills one hub, which feeds three tools">
+      </picture>
+    </td>
+    <td>
+      <strong>SingleSource</strong><br>
+      Data from five sources fills the rows of one central hub, which then feeds three different tools.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/assets/trip-invite-dark.gif">
+        <img src="docs/assets/trip-invite-light.gif" alt="An invite link is shared and four friends fly into an avatar stack">
+      </picture>
+    </td>
+    <td>
+      <strong>TripInvite</strong><br>
+      An invite link is shared and four friends fly into a trip's avatar stack.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/assets/zoetrope-dark.gif">
+        <img src="docs/assets/zoetrope-light.gif" alt="A zoetrope's strip of still drawings comes to life as a bouncing ball">
+      </picture>
+    </td>
+    <td>
+      <strong>Zoetrope</strong><br>
+      The device this skill is named after: the drum spins and its strip of still drawings comes to life as a bouncing ball. It's the animation at the top of this page.
+    </td>
+  </tr>
+</table>
 
-Each one has light and dark themes, plays only while on screen, and shows a still frame to visitors who prefer reduced motion. To see them, run the showcase:
+Each one has light and dark themes, plays only while on screen, and shows a still frame to visitors who prefer reduced motion. To see the first three live in their sections, run the showcase:
 
 ```bash
 npm install
