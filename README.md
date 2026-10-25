@@ -1,8 +1,27 @@
-# Zoe
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/zoetrope-dark.gif">
+    <img src="docs/assets/zoetrope-light.gif" width="480" alt="A zoetrope spins up and the strip of still drawings inside comes to life as a bouncing ball">
+  </picture>
+</p>
 
-Zoe is a [Claude Code](https://claude.com/claude-code) skill that designs and builds polished Lottie animations for websites: the small animated illustrations that explain a product idea in a few seconds, like data flowing into a hub or friends joining a trip. It ships each one as a drop-in React component.
+<h1 align="center">Zoe</h1>
 
-You describe a concept. Claude explores several visual ideas, picks the strongest one, computes every motion in code, checks the result for collisions, jerky motion and loop seams, then renders frames and critiques them before handing you a component.
+<p align="center">
+  <strong>Polished Lottie animations for your website, designed and built by Claude.</strong>
+</p>
+
+<p align="center">
+  <a href="#examples">Examples</a> ·
+  <a href="#how-the-skill-works">How it works</a> ·
+  <a href="#using-the-skill">Get started</a>
+</p>
+
+<br>
+
+Zoe is a [Claude Code](https://claude.com/claude-code) skill for the small animated illustrations that explain a product idea in a few seconds, like data flowing into a hub or friends joining a trip. It ships each one as a drop-in React component.
+
+You describe a concept. Claude explores several visual ideas, picks the strongest one, computes every motion in code, checks the result for collisions, jerky motion and loop seams, then renders frames and critiques them before handing you a component. The zoetrope above was made this way.
 
 This repo contains the skill itself and a Next.js showcase with three animations built with it.
 
