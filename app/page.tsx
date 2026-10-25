@@ -1,5 +1,6 @@
 import SingleSource from '@/components/motion/examples/SingleSource';
 import PacketRouting from '@/components/motion/examples/PacketRouting';
+import TripInvite from '@/components/motion/examples/TripInvite';
 
 // Showcase for components produced by the lottie-motion skill.
 // Each animation sits in the kind of section it was designed for, so it can be judged in context.
@@ -34,6 +35,17 @@ export default function Home() {
             Data from many sources is collected into one versioned record, then delivered to every tool that needs it.
           </p>
         </div>
+      </section>
+
+      <section className="mt-10 grid items-center gap-12 rounded-3xl border border-zinc-200 bg-[#fafaf9] p-8 md:grid-cols-[1fr_1.4fr] md:p-12 dark:border-zinc-800 dark:bg-[#0c0c0b]">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-widest text-[#ff5a1f] dark:text-[#ff6a33]">Invites</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">Bring everyone in.</h2>
+          <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+            Share one link and your friends are in — no sign-up dance, no typing names. Everyone joins with a single tap.
+          </p>
+        </div>
+        <TripInvite />
       </section>
     </main>
   );
