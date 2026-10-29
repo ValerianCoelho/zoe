@@ -105,7 +105,17 @@ The skill doesn't hand-write Lottie JSON. Claude writes a short build script usi
 
 **Requirements:** Claude Code, Node.js 20.11 or later, and about 150MB for the headless Chrome used by the renderer (installed on first use).
 
-1. Copy the skill (and, optionally, the subagent) into your project or into your home folder:
+1. Install Zoe as a plugin. In Claude Code, run:
+
+   ```
+   /plugin marketplace add ValerianCoelho/zoe
+   /plugin install zoe@zoe
+   ```
+
+   This installs the skill and the `zoe-designer` subagent for all your projects. Run `/plugin marketplace update zoe` later to get new versions.
+
+   <details>
+   <summary>Or copy the files by hand</summary>
 
    ```bash
    # for one project
@@ -117,13 +127,16 @@ The skill doesn't hand-write Lottie JSON. Claude writes a short build script usi
    cp    .claude/agents/zoe-designer.md ~/.claude/agents/
    ```
 
+   Copied this way, the skill runs as `/zoe` and the subagent is `zoe-designer`.
+   </details>
+
 2. Start a new Claude Code session and ask for an animation:
 
    ```
-   /zoe data packets routed from many regions into one core, for the hero's right column
+   /zoe:zoe data packets routed from many regions into one core, for the hero's right column
    ```
 
-   Or, from an orchestrating agent, delegate to the `zoe-designer` subagent (it runs on Opus with the skill preloaded) with a brief: the concept, where it will be used, brand constraints and the output folder.
+   Or just describe the animation you want and Claude will pick up the skill. From an orchestrating agent, delegate to the `zoe:zoe-designer` subagent (it runs on Opus with the skill preloaded) with a brief: the concept, where it will be used, brand constraints and the output folder.
 
 3. Install `lottie-web` in your project if the skill reports it's missing, then import the component:
 
@@ -138,6 +151,7 @@ The skill doesn't hand-write Lottie JSON. Claude writes a short build script usi
 ## Repository layout
 
 ```
+.claude-plugin/                 plugin and marketplace manifests
 .claude/skills/zoe/             the skill
   SKILL.md                      the playbook Claude follows
   references/                   art direction, motion principles, concept patterns, toolkit API, QA checklist

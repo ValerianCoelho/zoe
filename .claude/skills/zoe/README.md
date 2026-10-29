@@ -14,8 +14,9 @@ concept ─▶ ideation (≥4 metaphors, scored) ─▶ design spec (grid, palet
 
 ## Install
 
+- **As a plugin** (recommended): `/plugin marketplace add ValerianCoelho/zoe`, then `/plugin install zoe@zoe`. The skill runs as `/zoe:zoe` and the subagent is `zoe:zoe-designer`.
 - **In this repo**: it's already at `.claude/skills/zoe`, with the subagent at `.claude/agents/zoe-designer.md`.
-- **Everywhere**: copy `zoe/` to `~/.claude/skills/` and `zoe-designer.md` to `~/.claude/agents/`.
+- **Everywhere, by hand**: copy `zoe/` to `~/.claude/skills/` and `zoe-designer.md` to `~/.claude/agents/`.
 - Toolkit dependencies (headless Chrome for rendering), installed automatically on first use:
   `npm install --prefix ~/.claude/skills/zoe/scripts`
 - Health check: `node scripts/selftest.mjs`

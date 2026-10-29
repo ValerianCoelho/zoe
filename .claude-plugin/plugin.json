@@ -1,0 +1,14 @@
+{
+  "name": "zoe",
+  "displayName": "Zoe",
+  "description": "A motion designer for Claude Code: turns a concept into an agency-grade, theme-aware Lottie animation component.",
+  "author": {
+    "name": "Valerian Coelho"
+  },
+  "homepage": "https://github.com/ValerianCoelho/zoe",
+  "repository": "https://github.com/ValerianCoelho/zoe",
+  "license": "MIT",
+  "keywords": ["lottie", "animation", "motion-design", "react", "nextjs"],
+  "skills": ["./.claude/skills/"],
+  "agents": ["./.claude/agents/zoe-designer.md"]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "zoe",
+  "description": "Zoe, a motion designer skill for Claude Code",
+  "owner": {
+    "name": "Valerian Coelho"
+  },
+  "plugins": [
+    {
+      "name": "zoe",
+      "source": "./",
+      "description": "Turns a concept into an agency-grade, theme-aware Lottie animation component."
+    }
+  ]
+}
